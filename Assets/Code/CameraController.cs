@@ -21,9 +21,10 @@ public class CameraController : MonoBehaviour {
         // Find an offset from the target to move towards
         Vector3 lerpTarget = targetPosition;
         lerpTarget.y = cameraPosition.y;
+
         Vector3 targetToCameraVector = lerpTarget - cameraPosition;
         Vector3 offset = targetToCameraVector.normalized * lerpMinimumDistance;
-        lerpTarget += offset;
+        lerpTarget -= offset;
 
         gameObject.transform.position = Vector3.Lerp(
                 cameraPosition,
