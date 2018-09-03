@@ -5,9 +5,9 @@ PhysicMaterial:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: boucy
+  m_Name: bouncy
   dynamicFriction: 0.1
   staticFriction: 0.1
-  bounciness: 1
+  bounciness: 0.5
   frictionCombine: 0
   bounceCombine: 0
