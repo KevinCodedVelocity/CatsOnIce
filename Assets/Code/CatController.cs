@@ -14,28 +14,38 @@ public class CatController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+
+        bool isKeyHeld = false;
+
         if(Input.GetKey(KeyCode.UpArrow))
         {
             var forceVector = gameObject.transform.forward * force;
             rigidBody.AddForce(forceVector);
+            isKeyHeld = true;
         }
         
         if (Input.GetKey(KeyCode.DownArrow))
         {
             var forceVector = gameObject.transform.forward * -force;
             rigidBody.AddForce(forceVector);
+            isKeyHeld = true;
         }
         
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             rigidBody.AddTorque(new Vector3(0, -torque, 0));
+            isKeyHeld = true;
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             rigidBody.AddTorque(new Vector3(0, torque, 0));
+            isKeyHeld = true;
         }
+
+        // Pull in the animation controller for this cat
+        Animator catAnimationController = GetComponent<Animator>();
+        catAnimationController.SetBool("isWalking", isKeyHeld);
 
 
         //var rotation = gameObject.transform.eulerAngles;
