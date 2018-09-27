@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class CatController : MonoBehaviour {
 
     public float torque;
     public float force = 1000;
     public ParticleSystem bloodyExplosion;
+    public GameController gameController;
 
     Rigidbody rigidBody;
 
@@ -65,6 +67,8 @@ public class CatController : MonoBehaviour {
             bloodyExplosion.Play();
             bloodyExplosion.gameObject.transform.parent = null;
             gameObject.SetActive(false);
+
+            gameController.OnDeath();
         }
     }
 
@@ -74,5 +78,12 @@ public class CatController : MonoBehaviour {
         {
             rigidBody.AddForce(0, 100000, 0);
         }
+    }
+
+    internal void Reset()
+    {
+        transform.position = Vector3.zero;
+        transform.eulerAngles = Vector3.zero;
+        gameObject.SetActive(true);
     }
 }
