@@ -4,6 +4,8 @@ public class CatController : MonoBehaviour {
 
     public float torque;
     public float force = 1000;
+    public ParticleSystem bloodyExplosion;
+
     Rigidbody rigidBody;
 
 	// Use this for initialization
@@ -59,7 +61,10 @@ public class CatController : MonoBehaviour {
     {
         if(collision.gameObject.name.ToLower() == "box")
         {
-            rigidBody.AddForce(0, 100000, 0);
+            //rigidBody.AddForce(0, 100000, 0);
+            bloodyExplosion.Play();
+            bloodyExplosion.gameObject.transform.parent = null;
+            gameObject.SetActive(false);
         }
     }
 
