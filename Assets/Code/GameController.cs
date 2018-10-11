@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour {
     public Button startButton;
     public Text titleText;
     public CatController cat;
+    public ChickenContoller chicken;
+    public CameraController cameraController;
 
     GameState gameState = GameState.WaitingToStart;
     const int TitleTextFadeDelay = 3;
@@ -101,6 +103,7 @@ public class GameController : MonoBehaviour {
     {
         gameState = GameState.Won;
         cat.enabled = false;
+        chicken.gameObject.SetActive(true);
     }
 
     public void OnStartButtonClicked()
@@ -113,6 +116,8 @@ public class GameController : MonoBehaviour {
     {
         cat.enabled = false;
         cat.Reset();
+        chicken.Reset();
+        cameraController.Reset();
         gameState = GameState.WaitingToStart;
     }
 

@@ -1,20 +1,23 @@
 ﻿using System;
 using UnityEngine;
 
-public class CatController : MonoBehaviour {
+public class CatController : MonoBehaviour
+{
+    const string AnimatorIsWalking = "isWalking";
+    Rigidbody catBody;
+    Animator catAnimationController;
 
     public float torque;
     public float force = 1000;
     public ParticleSystem bloodyExplosion;
     public GameController gameController;
-
-    Rigidbody rigidBody;
-
-	// Use this for initialization
-	void Start () {
+    
+    // Use this for initialization
+    void Start () {
         gameObject.transform.position = new Vector3(0,0,0);
-        rigidBody = gameObject.GetComponent<Rigidbody>();
-	}
+        catBody = gameObject.GetComponent<Rigidbody>();
+        catAnimationController = GetComponent<Animator>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -24,32 +27,32 @@ public class CatController : MonoBehaviour {
         if(Input.GetKey(KeyCode.UpArrow))
         {
             var forceVector = gameObject.transform.forward * force;
-            rigidBody.AddForce(forceVector);
+            catBody.AddForce(forceVector);
             isKeyHeld = true;
         }
         
         if (Input.GetKey(KeyCode.DownArrow))
         {
             var forceVector = gameObject.transform.forward * -force;
-            rigidBody.AddForce(forceVector);
+            catBody.AddForce(forceVector);
             isKeyHeld = true;
         }
         
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            rigidBody.AddTorque(new Vector3(0, -torque, 0));
+            catBody.AddTorque(new Vector3(0, -torque, 0));
             isKeyHeld = true;
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            rigidBody.AddTorque(new Vector3(0, torque, 0));
+            catBody.AddTorque(new Vector3(0, torque, 0));
             isKeyHeld = true;
         }
 
         // Pull in the animation controller for this cat
-        Animator catAnimationController = GetComponent<Animator>();
-        catAnimationController.SetBool("isWalking", isKeyHeld);
+        
+        catAnimationController.SetBool(AnimatorIsWalking, isKeyHeld);
 
 
         //var rotation = gameObject.transform.eulerAngles;
@@ -76,14 +79,19 @@ public class CatController : MonoBehaviour {
     {
         if (otherCollider.gameObject.name.ToLower() == "finishline")
         {
-            rigidBody.AddForce(0, 100000, 0);
+            catBody.AddForce(0, 100000, 0);
         }
     }
 
     internal void Reset()
     {
-        transform.position = Vector3.zero;
-        transform.eulerAngles = Vector3.zero;
         gameObject.SetActive(true);
+        catBody.velocity = Vector3.zero;
+        transform.position = Vector3.zero;
+        catBody.MovePosition(Vector3.zero);
+
+        catAnimationController.SetBool(AnimatorIsWalking, false);
+
+        transform.eulerAngles = Vector3.zero;
     }
 }

@@ -2,14 +2,17 @@
 
 public class CameraController : MonoBehaviour {
 
+    Vector3 startingPosition;
+
     public GameObject target;
     public float lerpFactor;
     public float lerpMinimumDistance;
 
+
 	// Use this for initialization
 	void Start () {
-		
-	}
+        startingPosition = transform.position;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -31,4 +34,9 @@ public class CameraController : MonoBehaviour {
                 lerpTarget,
                 lerpFactor);
 	}
+
+    public void Reset()
+    {
+        transform.position = startingPosition;
+    }
 }
