@@ -21,7 +21,10 @@ public class GameController : MonoBehaviour {
     public CatController cat;
     public ChickenContoller chicken;
     public CameraController cameraController;
-
+    
+    int currentLevelIndex = 0;
+    GameObject[] levels;
+    GameObject currentLevel;
     GameState gameState = GameState.WaitingToStart;
     const int TitleTextFadeDelay = 3;
     const float FadeSpeed = 5.0f;
@@ -31,12 +34,30 @@ public class GameController : MonoBehaviour {
 	void Start ()
     {
         startButton.onClick.AddListener(OnStartButtonClicked);
+        
+        levels = Resources.LoadAll<GameObject>("Levels/");
 
+        LoadLevel();
+    }
+
+    private void LoadLevel()
+    {
+        int targetLevel = currentLevelIndex;
+
+        targetLevel %= levels.Length;
+
+        if(currentLevel != null)
+        {
+            Destroy(currentLevel);
+        }
+
+        currentLevel = Instantiate(levels[targetLevel]);
     }
 
     // Update is called once per frame
     void Update()
     {
+
         switch(gameState)
         {
             case GameState.WaitingToStart:
@@ -104,6 +125,9 @@ public class GameController : MonoBehaviour {
         gameState = GameState.Won;
         cat.enabled = false;
         chicken.gameObject.SetActive(true);
+
+        currentLevelIndex++;
+        LoadLevel();
     }
 
     public void OnStartButtonClicked()
