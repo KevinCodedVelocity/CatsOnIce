@@ -64,7 +64,7 @@ public class CatController : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.name.ToLower() == "box")
+        if(collision.gameObject.tag == "Obstacle")
         {
             //rigidBody.AddForce(0, 100000, 0);
             bloodyExplosion.Play();
