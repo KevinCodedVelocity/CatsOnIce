@@ -126,8 +126,6 @@ public class GameController : MonoBehaviour {
         cat.enabled = false;
         chicken.gameObject.SetActive(true);
 
-        currentLevelIndex++;
-        LoadLevel();
     }
 
     public void OnStartButtonClicked()
@@ -142,6 +140,13 @@ public class GameController : MonoBehaviour {
         cat.Reset();
         chicken.Reset();
         cameraController.Reset();
+
+        if(gameState == GameState.Won)
+        {
+            currentLevelIndex++;
+            LoadLevel();
+        }
+
         gameState = GameState.WaitingToStart;
     }
 
