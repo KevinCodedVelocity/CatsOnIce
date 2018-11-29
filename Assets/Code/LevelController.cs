@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour {
     public bool useSkybox = true;
+    public bool useFog = false;
     public Color skyColor;
 
 	// Use this for initialization
@@ -17,6 +18,9 @@ public class LevelController : MonoBehaviour {
         GameObject cameraObject = GameObject.Find("Main Camera");
         
         Camera camera = cameraObject.GetComponent<Camera>();
+
+        RenderSettings.fog = useFog;
+        RenderSettings.fogColor = skyColor;
 
         if (useSkybox)
         {

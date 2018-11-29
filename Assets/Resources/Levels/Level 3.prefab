@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4019590986924214}
+  - component: {fileID: 114994177055911480}
   m_Layer: 0
   m_Name: Level 3
   m_TagString: Untagged
@@ -712,7 +713,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 6f347075b9f3c08429b43882118858fc, type: 2}
+  - {fileID: 2100000, guid: bdc96d4333df9ff49b533161f73eec43, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1243,3 +1244,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114994177055911480
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1072050485115578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38813aa58392bd040bc9877d20f3604e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useSkybox: 0
+  useFog: 1
+  skyColor: {r: 0.371529, g: 0.6509434, b: 0.6485287, a: 1}
