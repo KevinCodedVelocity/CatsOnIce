@@ -6,6 +6,7 @@ public class LevelController : MonoBehaviour {
     public bool useSkybox = true;
     public bool useFog = false;
     public Color skyColor;
+    public Material skyboxMaterial;
 
 	// Use this for initialization
 	void Awake () {
@@ -21,6 +22,7 @@ public class LevelController : MonoBehaviour {
 
         RenderSettings.fog = useFog;
         RenderSettings.fogColor = skyColor;
+        RenderSettings.skybox = skyboxMaterial;
 
         if (useSkybox)
         {
