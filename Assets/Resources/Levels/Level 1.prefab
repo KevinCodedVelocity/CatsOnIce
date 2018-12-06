@@ -482,4 +482,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useSkybox: 1
-  skyColor: {r: 0, g: 0, b: 0, a: 0}
+  useFog: 0
+  skyColor: {r: 0.063545756, g: 0.09102759, b: 0.7924528, a: 0}
+  skyboxMaterial: {fileID: 2100000, guid: 119ec07f1c7ed204db46bd8465fd5a50, type: 2}

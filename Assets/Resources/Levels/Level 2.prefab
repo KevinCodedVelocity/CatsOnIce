@@ -825,6 +825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38813aa58392bd040bc9877d20f3604e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useSkybox: 0
+  useSkybox: 1
   useFog: 1
   skyColor: {r: 0.20825917, g: 0.22334889, b: 0.3773585, a: 1}
+  skyboxMaterial: {fileID: 2100000, guid: f531e09e2ad2fb440b4eed7605863143, type: 2}
