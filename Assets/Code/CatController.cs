@@ -67,7 +67,9 @@ public class CatController : MonoBehaviour
         if(collision.gameObject.tag == "Obstacle")
         {
             //rigidBody.AddForce(0, 100000, 0);
-                       
+            bloodyExplosion.transform.parent = gameObject.transform;
+            bloodyExplosion.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+
             bloodyExplosion.time = 0;         
             bloodyExplosion.Play();
             bloodyExplosion.gameObject.transform.parent = null;
