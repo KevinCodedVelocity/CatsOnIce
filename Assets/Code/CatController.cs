@@ -4,14 +4,19 @@ using UnityEngine;
 public class CatController : MonoBehaviour
 {
     const string AnimatorIsWalking = "isWalking";
+    const float CatMeowDelayDuration = 3.0f; // seconds
+
     Rigidbody catBody;
     Animator catAnimationController;
+    float lastMeowTime;
 
     public float torque;
     public float force = 1000;
     public ParticleSystem bloodyExplosion;
     public GameController gameController;
-    
+    public AudioClip catMeowSound;
+    public AudioClip explosionSound;
+
     // Use this for initialization
     void Start () {
         gameObject.transform.position = new Vector3(0,0,0);
@@ -51,7 +56,16 @@ public class CatController : MonoBehaviour
         }
 
         // Pull in the animation controller for this cat
-        
+
+        if (!catAnimationController.GetBool(AnimatorIsWalking) && isKeyHeld)
+        {
+            if (Time.realtimeSinceStartup - lastMeowTime > CatMeowDelayDuration)
+            {
+                AudioSource.PlayClipAtPoint(catMeowSound, transform.position);
+                lastMeowTime = Time.realtimeSinceStartup;
+            }
+        }
+
         catAnimationController.SetBool(AnimatorIsWalking, isKeyHeld);
 
 
@@ -66,17 +80,27 @@ public class CatController : MonoBehaviour
     {
         if(collision.gameObject.tag == "Obstacle")
         {
-            //rigidBody.AddForce(0, 100000, 0);
-            bloodyExplosion.transform.parent = gameObject.transform;
-            bloodyExplosion.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-
-            bloodyExplosion.time = 0;         
-            bloodyExplosion.Play();
-            bloodyExplosion.gameObject.transform.parent = null;
-            gameObject.SetActive(false);
-
-            gameController.OnDeath();
+            Explode();
         }
+    }
+
+    private void Explode()
+    {
+        //rigidBody.AddForce(0, 100000, 0);
+        Vector3 targetPosition = transform.position;
+        targetPosition += new Vector3(0, 0.6f, 0);
+
+        bloodyExplosion.transform.position = targetPosition;
+        bloodyExplosion.gameObject.transform.parent = null;
+        bloodyExplosion.gameObject.SetActive(true);
+        bloodyExplosion.time = 0;
+        bloodyExplosion.Play();
+
+        gameObject.SetActive(false);
+
+        AudioSource.PlayClipAtPoint(explosionSound, targetPosition);
+
+        gameController.OnDeath();
     }
 
     public void OnTriggerEnter(Collider otherCollider)
