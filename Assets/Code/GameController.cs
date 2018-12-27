@@ -21,7 +21,8 @@ public class GameController : MonoBehaviour {
     public CatController cat;
     public ChickenContoller chicken;
     public CameraController cameraController;
-    
+    public AudioSource cameraAudioSource;
+
     int currentLevelIndex = 0;
     GameObject[] levels;
     GameObject currentLevel;
@@ -30,8 +31,8 @@ public class GameController : MonoBehaviour {
     const float FadeSpeed = 5.0f;
 
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         startButton.onClick.AddListener(OnStartButtonClicked);
         
@@ -122,6 +123,8 @@ public class GameController : MonoBehaviour {
 
     public void OnFinishLineReached()
     {
+        cameraAudioSource.Play();
+
         gameState = GameState.Won;
         cat.enabled = false;
         chicken.gameObject.SetActive(true);

@@ -102,15 +102,7 @@ public class CatController : MonoBehaviour
 
         gameController.OnDeath();
     }
-
-    public void OnTriggerEnter(Collider otherCollider)
-    {
-        if (otherCollider.gameObject.name.ToLower() == "finishline")
-        {
-            catBody.AddForce(0, 100000, 0);
-        }
-    }
-
+    
     internal void Reset()
     {
         gameObject.SetActive(true);
