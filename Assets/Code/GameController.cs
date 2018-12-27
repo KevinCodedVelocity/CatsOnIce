@@ -13,6 +13,9 @@ public class GameController : MonoBehaviour {
         Dead,
         Won
     }
+    
+    const int TitleTextFadeDelay = 3;
+    const float FadeSpeed = 5.0f;
 
     public GameEndVisualsController gameEndVisuals;
     public GameObject titleVisuals;
@@ -22,13 +25,15 @@ public class GameController : MonoBehaviour {
     public ChickenContoller chicken;
     public CameraController cameraController;
     public AudioSource cameraAudioSource;
+    public Text timerText;
 
     int currentLevelIndex = 0;
     GameObject[] levels;
     GameObject currentLevel;
     GameState gameState = GameState.WaitingToStart;
-    const int TitleTextFadeDelay = 3;
-    const float FadeSpeed = 5.0f;
+    float levelStartTime;
+    float levelFinishTime;
+
 
 
     // Use this for initialization
@@ -74,9 +79,7 @@ public class GameController : MonoBehaviour {
                 UpdateWonState();
                 break;
         }
-
-        
-    }
+                    }
 
     #region State machine methods
 
@@ -85,6 +88,7 @@ public class GameController : MonoBehaviour {
         gameEndVisuals.SetVisibility(true);
         gameEndVisuals.SetText("You Won!");
         SetTitleVisualsVisibility(false);
+        timerText.gameObject.SetActive(true);
     }
 
     private void UpdateDeadState()
@@ -92,12 +96,16 @@ public class GameController : MonoBehaviour {
         gameEndVisuals.SetVisibility(true);
         gameEndVisuals.SetText("Game Over!");
         SetTitleVisualsVisibility(false);
+        timerText.gameObject.SetActive(false);
     }
 
     private void UpdatePlayingState()
     {
         gameEndVisuals.SetVisibility(false);
         SetTitleVisualsVisibility(false);
+        timerText.gameObject.SetActive(true);
+        float timeOnLevel = Time.time - levelStartTime;
+        timerText.text = timeOnLevel.ToString("00.00");
     }
 
     private void UpdateWaitingToStartState()
@@ -105,6 +113,8 @@ public class GameController : MonoBehaviour {
         cat.enabled = false;
         gameEndVisuals.SetVisibility(false);
         SetTitleVisualsVisibility(true);
+        timerText.gameObject.SetActive(false);
+
         titleText.text = "Cats On Ice!";
 
         if (Time.time > TitleTextFadeDelay)
@@ -135,6 +145,7 @@ public class GameController : MonoBehaviour {
     {
         cat.enabled = true;
         gameState = GameState.Playing;
+        levelStartTime = Time.time;
     }
 
     public void RestartGame()
