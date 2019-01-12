@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour {
     public CameraController cameraController;
     public AudioSource cameraAudioSource;
     public Text timerText;
+    public Button upArrowButton, downArrowButton, leftArrowButton, rightArrowButton;
 
     int currentLevelIndex = 0;
     GameObject[] levels;
