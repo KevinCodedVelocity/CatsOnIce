@@ -17,6 +17,11 @@ public class CatController : MonoBehaviour
     public AudioClip catMeowSound;
     public AudioClip explosionSound;
 
+    public bool IsUpButtonHeld { get; set; }
+    public bool IsDownButtonHeld { get; set; }
+    public bool IsLeftButtonHeld { get; set; }
+    public bool IsRightButtonHeld { get; set; }
+
     // Use this for initialization
     void Start () {
         gameObject.transform.position = new Vector3(0,0,0);
@@ -25,39 +30,39 @@ public class CatController : MonoBehaviour
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        bool isDirectionHeld = false;
 
-        bool isKeyHeld = false;
-
-        if(Input.GetKey(KeyCode.UpArrow))
+        if (IsUpHeld())
         {
             var forceVector = gameObject.transform.forward * force;
             catBody.AddForce(forceVector);
-            isKeyHeld = true;
+            isDirectionHeld = true;
         }
-        
-        if (Input.GetKey(KeyCode.DownArrow))
+
+        if (IsDownHeld())
         {
             var forceVector = gameObject.transform.forward * -force;
             catBody.AddForce(forceVector);
-            isKeyHeld = true;
-        }
-        
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            catBody.AddTorque(new Vector3(0, -torque, 0));
-            isKeyHeld = true;
+            isDirectionHeld = true;
         }
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (IsLeftHeld())
+        {
+            catBody.AddTorque(new Vector3(0, -torque, 0));
+            isDirectionHeld = true;
+        }
+
+        if (IsRightHeld())
         {
             catBody.AddTorque(new Vector3(0, torque, 0));
-            isKeyHeld = true;
+            isDirectionHeld = true;
         }
 
         // Pull in the animation controller for this cat
 
-        if (!catAnimationController.GetBool(AnimatorIsWalking) && isKeyHeld)
+        if (!catAnimationController.GetBool(AnimatorIsWalking) && isDirectionHeld)
         {
             if (Time.realtimeSinceStartup - lastMeowTime > CatMeowDelayDuration)
             {
@@ -66,7 +71,7 @@ public class CatController : MonoBehaviour
             }
         }
 
-        catAnimationController.SetBool(AnimatorIsWalking, isKeyHeld);
+        catAnimationController.SetBool(AnimatorIsWalking, isDirectionHeld);
 
 
         //var rotation = gameObject.transform.eulerAngles;
@@ -74,6 +79,26 @@ public class CatController : MonoBehaviour
         //gameObject.transform.eulerAngles = rotation;
 
 
+    }
+
+    private bool IsRightHeld()
+    {
+        return Input.GetKey(KeyCode.RightArrow) || IsRightButtonHeld;
+    }
+
+    private bool IsLeftHeld()
+    {
+        return Input.GetKey(KeyCode.LeftArrow) || IsLeftButtonHeld;
+    }
+
+    private bool IsDownHeld()
+    {
+        return Input.GetKey(KeyCode.DownArrow) || IsDownButtonHeld;
+    }
+
+    private bool IsUpHeld()
+    {
+        return Input.GetKey(KeyCode.UpArrow) || IsUpButtonHeld;
     }
 
     public void OnCollisionEnter(Collision collision)
