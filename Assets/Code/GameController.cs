@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour {
 
     public GameEndVisualsController gameEndVisuals;
     public GameObject titleVisuals;
+    public GameObject inGameVisuals;
     public Button startButton;
     public Text titleText;
     public CatController cat;
@@ -41,12 +42,37 @@ public class GameController : MonoBehaviour {
     void Start ()
     {
         startButton.onClick.AddListener(OnStartButtonClicked);
-        
+
+        AddArrowButtonListeners();
+
         levels = Resources.LoadAll<GameObject>("Levels/");
 
         LoadLevel();
     }
 
+    private void AddArrowButtonListeners()
+    {
+        ButtonEventHelper.AddUpDownListenersToButton(
+            upArrowButton, 
+            () => { cat.IsUpButtonHeld = true; }, 
+            () => { cat.IsUpButtonHeld = false; });
+
+        ButtonEventHelper.AddUpDownListenersToButton(
+            downArrowButton, 
+            () => { cat.IsDownButtonHeld = true; }, 
+            () => { cat.IsDownButtonHeld = false; });
+
+        ButtonEventHelper.AddUpDownListenersToButton(
+            leftArrowButton, 
+            () => { cat.IsLeftButtonHeld = true; }, 
+            () => { cat.IsLeftButtonHeld = false; });
+
+        ButtonEventHelper.AddUpDownListenersToButton(
+            rightArrowButton, 
+            () => { cat.IsRightButtonHeld = true; }, 
+            () => { cat.IsRightButtonHeld = false; });
+    }
+    
     private void LoadLevel()
     {
         int targetLevel = currentLevelIndex;
@@ -89,7 +115,7 @@ public class GameController : MonoBehaviour {
         gameEndVisuals.SetVisibility(true);
         gameEndVisuals.SetText("You Won!");
         SetTitleVisualsVisibility(false);
-        timerText.gameObject.SetActive(true);
+        inGameVisuals.SetActive(true);
     }
 
     private void UpdateDeadState()
@@ -97,14 +123,14 @@ public class GameController : MonoBehaviour {
         gameEndVisuals.SetVisibility(true);
         gameEndVisuals.SetText("Game Over!");
         SetTitleVisualsVisibility(false);
-        timerText.gameObject.SetActive(false);
+        inGameVisuals.SetActive(false);
     }
 
     private void UpdatePlayingState()
     {
         gameEndVisuals.SetVisibility(false);
         SetTitleVisualsVisibility(false);
-        timerText.gameObject.SetActive(true);
+        inGameVisuals.SetActive(true);
         float timeOnLevel = Time.time - levelStartTime;
         timerText.text = timeOnLevel.ToString("00.00");
     }
@@ -114,7 +140,7 @@ public class GameController : MonoBehaviour {
         cat.enabled = false;
         gameEndVisuals.SetVisibility(false);
         SetTitleVisualsVisibility(true);
-        timerText.gameObject.SetActive(false);
+        inGameVisuals.SetActive(false);
 
         titleText.text = "Cats On Ice!";
 
@@ -148,7 +174,7 @@ public class GameController : MonoBehaviour {
         gameState = GameState.Playing;
         levelStartTime = Time.time;
     }
-
+    
     public void RestartGame()
     {
         cat.enabled = false;
