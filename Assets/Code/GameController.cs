@@ -48,6 +48,15 @@ public class GameController : MonoBehaviour {
         levels = Resources.LoadAll<GameObject>("Levels/");
 
         LoadLevel();
+
+        // Turn off arrow buttons on non-mobile
+        if (!Application.isMobilePlatform)
+        {
+            upArrowButton.gameObject.SetActive(false);
+            downArrowButton.gameObject.SetActive(false);
+            leftArrowButton.gameObject.SetActive(false);
+            rightArrowButton.gameObject.SetActive(false);
+        }
     }
 
     private void AddArrowButtonListeners()
