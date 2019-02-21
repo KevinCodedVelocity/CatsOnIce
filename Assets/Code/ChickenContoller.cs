@@ -8,11 +8,11 @@ public class ChickenContoller : MonoBehaviour {
     public GameObject target;
     public float force;
 
-    Vector3 startingPosition;
+    public Vector3 StartingPosition { get; private set; }
 
 	// Use this for initialization
 	void Start () {
-        startingPosition = transform.position;
+        StartingPosition = transform.position;
 	}
 	
 	// Update is called once per frame
@@ -26,7 +26,7 @@ public class ChickenContoller : MonoBehaviour {
 
     public void Reset()
     {
-        transform.position = startingPosition;
+        transform.position = StartingPosition;
         gameObject.SetActive(false);
     }
 }
